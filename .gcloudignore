@@ -1,0 +1,44 @@
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment directories
+env/
+venv/
+.supabase-test/
+ENV/
+*.env
+
+# Local environment files
+.env
+.env.*
+
+# Editor directories
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Firebase keys - never upload
+*key.json
+serviceAccount*.json
+*.pem
+
+# Bytecode / build files
+build/
+dist/
+*.egg-info/
+
+# Docker artifacts
+*.tar
+
+# Cloud Build metadata
+.gcloudignore
+cloudbuild.yaml

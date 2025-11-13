@@ -1,0 +1,48 @@
+/supabase-test
+*.env
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+env/
+ENV/
+.supabase-test/
+*.env
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+
+# Bytecode / build files
+build/
+dist/
+*.egg-info/
+*.pyc
+
+# Docker files
+*.tar
+
+# Firebase / GCP Credentials - NEVER COMMIT
+*key.json
+serviceAccount*.json
+*.pem
+
+# Environment variables
+.env
+.env.*
+
+# Cloud / Cache files
+.gcloud/
+.cloud/
+.cache/
