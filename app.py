@@ -1,24 +1,18 @@
 from flask import Flask, request, jsonify
-import firebase_admin
-from firebase_admin import firestore
+from flask_cors import CORS
+from google.cloud import firestore
 # remove for gcp because it's not required
-# from firebase_admin import credentials
+# from firebase_admin import firestore, credentials
 
 # remove for gcp
 # cred = credentials.Certificate("smart-bonus-293007-key.json")
 # firebase_admin.initialize_app(cred, {
 #     "projectId": "smart-bonus-293007"
 # })
-# and replace with the following, and remove the following when running locally
-try:
-    firebase_admin.initialize_app()
-except ValueError:
-    pass
-
-db = firestore.client(database_id="clinic")
 
 app = Flask(__name__)
-
+CORS(app)
+db = firestore.Client(database="clinic")
 
 @app.route("/search-service", methods=["GET"])
 def search_service():
