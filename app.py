@@ -47,6 +47,32 @@ def search_service():
         "results": matching_results
     })
 
+
+@app.route("/add-case-queue", methods=["POST"])
+def add_case_queue():
+    data = request.get_json()
+
+    lab_id = data.get("lab_id")
+    case_id = data.get("case_id")
+
+    if not lab_id or not case_id:
+        return jsonify({"error": "lab_id and case_id are required."}), 400
+    
+    doc_ref = db.collection("test-lab-data").document(str(lab_id))
+    doc_ref.update({
+        "queue": firestore.ArrayUnion([case_id])
+    })
+
+    doc_snapshot = doc_ref.get()
+    cur_queue = doc_snapshot.to_dict().get("queue", [])
+
+    return jsonify({
+        "message": "case added to the queue",
+        "lab_id": lab_id,
+        "case_id": case_id,
+        "current_queue": cur_queue
+    }), 200
+
 # for testing price retrieval
 # @app.route("/price", methods=["GET"])
 # def get_service_price():
