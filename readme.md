@@ -65,6 +65,7 @@ III. Once reviewed and approved, your changes will be merged!
 ## 📌 After Merge: Keeping the Fork Updated
 Here's what you can do as contributor to keep your fork in sync with the original repo:
 ```bash
+git remote add upstream https://github.com/z-anxprincex1/gcp-smart-dental-v2-lab.git
 git checkout main
 git pull upstream main
 git push origin main
