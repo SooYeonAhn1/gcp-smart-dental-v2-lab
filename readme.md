@@ -24,10 +24,57 @@ This project provides a Flask-based backend API for matching dental clinics with
 
 ---
 
-## 📦 Setup Instructions
+## 📦 Wanna contribute?
+Here's how you can get started:
 
-### 1. Clone the repository
+### 1. Clone your fork
 
 ```bash
-git clone https://github.com/<your-org>/smart-dental-lab-matching.git
-cd smart-dental-lab-matching
+git clone https://github.com/<your-username>/gcp-smart-dental-v2-lab.git
+cd gcp-smart-dental-v2-lab
+```
+
+### 2. Create a new `branch` for your feature
+```bash
+git checkout -b feature/your-feature-name
+```
+Examples:
+feature/add-authentication
+fix/capacity-calculation-bug
+docs/improved-readme
+
+### 3. Make your changes
+```bash
+git add .
+git commit -m "<your changes>"
+```
+
+### 4. Push your branch
+```bash
+git push origin feature/your-feature-name
+```
+### 5. Create a pull request
+I. Go to your fork on Github:
+```bash
+https://github.com/<your-username>/gcp-smart-dental-v2-lab
+```
+II. And click `Compare & Pull Request`
+III. Once reviewed and approved, your changes will be merged!
+
+## 📌 After Merge: Keeping the Fork Updated
+Here's what you can do as contributor to keep your fork in sync with the original repo:
+```bash
+git checkout main
+git pull upstream main
+git push origin main
+```
+## 🧩 Here's how the flow works
+```
+    Main Repo
+       ↑
+  Pull Request
+       ↑
+Contributor Fork
+       ↑
+feature/new-feature
+```
