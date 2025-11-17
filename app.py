@@ -59,18 +59,24 @@ def add_case_queue():
         return jsonify({"error": "lab_id and case_id are required."}), 400
     
     doc_ref = db.collection("test-lab-data").document(str(lab_id))
+
+    cur_availability = doc_ref.get().to_dict().get("availability", 0)
+    cur_capacity = doc_ref.get().to_dict().get("capacity", 0)
+
     doc_ref.update({
-        "queue": firestore.ArrayUnion([case_id])
+        "queue": firestore.ArrayUnion([case_id]),
+        "availability": max(0, ((cur_capacity - cur_availability) / cur_capacity) * 100)
     })
 
-    doc_snapshot = doc_ref.get()
-    cur_queue = doc_snapshot.to_dict().get("queue", [])
+    cur_queue = doc_ref.get().to_dict().get("queue", [])
 
     return jsonify({
         "message": "case added to the queue",
         "lab_id": lab_id,
         "case_id": case_id,
-        "current_queue": cur_queue
+        "current_queue": cur_queue,
+        "capacity": cur_capacity,
+        "cur_availability": doc_ref.get().to_dict().get("availability", 0)
     }), 200
 
 # for testing price retrieval
