@@ -59,6 +59,7 @@ I. Go to your fork on Github:
 https://github.com/<your-username>/gcp-smart-dental-v2-lab
 ```
 II. And click `Compare & Pull Request`
+
 III. Once reviewed and approved, your changes will be merged!
 
 ## 📌 After Merge: Keeping the Fork Updated
@@ -70,11 +71,11 @@ git push origin main
 ```
 ## 🧩 Here's how the flow works
 ```
-    Main Repo
-       ↑
-  Pull Request
-       ↑
+Main Repo
+    ↑
+Pull Request
+    ↑
 Contributor Fork
-       ↑
+    ↑
 feature/new-feature
 ```
