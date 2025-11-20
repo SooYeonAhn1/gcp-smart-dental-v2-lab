@@ -53,63 +53,26 @@ def add_case_queue():
 
     lab_id = data.get("lab_id")
     case_id = data.get("case_id")
-
-    if not lab_id or not case_id:
-        return jsonify({"error": "lab_id and case_id are required."}), 400
-    
-    doc_ref = db.collection("test-lab-data").document(str(lab_id))
-
-    doc_snapshot = doc_ref.get().to_dict()
-    cur_capacity = doc_snapshot.get("capacity", 1)
-    cur_queue = doc_snapshot.get("queue", []) + [case_id]
-    cur_queue_size = len(cur_queue)
-    availability = max(0, ((cur_capacity - cur_queue_size) / cur_capacity) * 100)
-
-    doc_ref.update({
-        "queue": firestore.ArrayUnion([case_id]),
-        "availability": round(availability, 2)
-    })
-
-    return jsonify({
-        "message": "case added to the queue",
-        "lab_id": lab_id,
-        "case_id": case_id,
-        "current_queue": cur_queue,
-        "capacity": cur_capacity,
-        "cur_availability": round(availability, 2)
-    }), 200
-
-@app.route("/update-case-queue-tat", methods=["POST"])
-def add_case_queue():
-    data = request.get_json()
-
-    lab_id = data.get("lab_id")
-    case_id = data.get("case_id")
     service_type = data.get("service_type")
 
     if not lab_id or not case_id:
         return jsonify({"error": "lab_id and case_id are required."}), 400
     
     doc_ref = db.collection("test-lab-data").document(str(lab_id))
-    
-    # to update availability
+
     doc_snapshot = doc_ref.get().to_dict()
     cur_capacity = doc_snapshot.get("capacity", 1)
-    cur_queue = doc_snapshot.get("queue", []) + [case_id]
-    cur_queue_size = len(cur_queue)
+
+    case_queue = doc_snapshot.get("case_queue", {})
+    case_queue[case_id] = {
+        "service_type": service_type
+    }
+
+    cur_queue_size = len(case_queue)
     availability = max(0, ((cur_capacity - cur_queue_size) / cur_capacity) * 100)
 
-    # to update tat for the service
-    lab_services = doc_snapshot.get("services", [])
-    before_services = lab_services
-    for service in lab_services:
-        if service_type in service:
-            cur_tat = service[str(service_type)]["avg_tat"]
-            service[str(service_type)]["avg_tat"] =  cur_tat + (1 * (cur_tat * 0.05))
-
     doc_ref.update({
-        "services": lab_services,
-        "queue": firestore.ArrayUnion([case_id]),
+        "case_queue": case_queue,
         "availability": round(availability, 2)
     })
 
@@ -117,12 +80,55 @@ def add_case_queue():
         "message": "case added to the queue",
         "lab_id": lab_id,
         "case_id": case_id,
-        "current_queue": cur_queue,
+        "current_queue": case_queue,
         "capacity": cur_capacity,
-        "services_befpre_update": before_services,
-        "services_after_update": lab_services,
         "cur_availability": round(availability, 2)
     }), 200
+
+# @app.route("/update-case-queue-tat", methods=["POST"])
+# def update_case_queue():
+#     data = request.get_json()
+
+#     lab_id = data.get("lab_id")
+#     case_id = data.get("case_id")
+#     service_type = data.get("service_type")
+
+#     if not lab_id or not case_id:
+#         return jsonify({"error": "lab_id and case_id are required."}), 400
+    
+#     doc_ref = db.collection("test-lab-data").document(str(lab_id))
+    
+#     # to update availability
+#     doc_snapshot = doc_ref.get().to_dict()
+#     cur_capacity = doc_snapshot.get("capacity", 1)
+#     cur_queue = doc_snapshot.get("queue", []) + [case_id]
+#     cur_queue_size = len(cur_queue)
+#     availability = max(0, ((cur_capacity - cur_queue_size) / cur_capacity) * 100)
+
+#     # to update tat for the service
+#     lab_services = doc_snapshot.get("services", [])
+#     before_services = lab_services
+#     for service in lab_services:
+#         if service_type in service:
+#             cur_tat = service[str(service_type)]["avg_tat"]
+#             service[str(service_type)]["avg_tat"] =  cur_tat + (1 * (cur_tat * 0.05))
+
+#     doc_ref.update({
+#         "services": lab_services,
+#         "queue": firestore.ArrayUnion([case_id]),
+#         "availability": round(availability, 2)
+#     })
+
+#     return jsonify({
+#         "message": "case added to the queue",
+#         "lab_id": lab_id,
+#         "case_id": case_id,
+#         "current_queue": cur_queue,
+#         "capacity": cur_capacity,
+#         "services_befpre_update": before_services,
+#         "services_after_update": lab_services,
+#         "cur_availability": round(availability, 2)
+#     }), 200
 
 # for testing price retrieval
 # @app.route("/price", methods=["GET"])
