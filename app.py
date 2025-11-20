@@ -33,9 +33,8 @@ def search_service():
 
     for doc in docs:
         data = doc.to_dict()
-
-        services_list = data.get("services", [])
-        has_service = any(service_num in service_item for service_item in services_list)
+        services_available = data.get("services_available", {})
+        has_service = service_num in services_available
 
         if has_service:
             data["id"] = doc.id
