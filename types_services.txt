@@ -1,0 +1,53 @@
+# @title lab types & services available
+lab_types = {
+    1: "full service",
+    2: "specialty - fixed restoration",
+    3: "specialty - removable",
+    4: "specialty - orthodontic",
+    5: "specialty - implant",
+    6: "volume"
+}
+
+services_full = {
+    1: "crowns_standard",
+    2: "bridges_standard",
+    3: "complete_dentures_standard",
+    4: "partial_dentures_standard",
+    5: "night_guards_hardsoft",
+    6: "single_implant_crowns"
+}
+
+services_sp_fixed = {
+    1: "high_aesthetic_veneers_e_max",
+    2: "crowns_layered_zirconia",
+    3: "full_mouth_wax_up",
+    4: "inlays_onlays_complex"
+}
+
+services_sp_removable = {
+    1: "complete_dentures_premium_aesthetic",
+    2: "partial_dentures_cast_metal_complex",
+    3: "denture_relines_repairs",
+    4: "implant_supported_overdentures"
+}
+
+services_sp_orthodontic = {
+    1: "clear_aligners_in_house",
+    2: "retainers_essix_hawley",
+    3: "space_maintainers_pediatric",
+    4: "functional_appliances_expanders"
+}
+
+services_sp_implant = {
+    1: "full_arch_hybrid_prostheses",
+    2: "3d_printed_surgical_guides",
+    3: "milled_custom_abutments",
+    4: "implant_bars_milled"
+}
+
+services_volume = {
+    1: "crowns_monolithic_zirconia_low_cost",
+    2: "bridges_monolithic_low_cost",
+    3: "night_guards_basic_comfort",
+    4: "retainers_essix_high_volume"
+}
