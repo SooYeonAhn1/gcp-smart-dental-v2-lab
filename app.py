@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from google.cloud import firestore, storage
-from xgboost import Booster
+from xgboost import XGBRegressor
 import numpy as np
 import pandas as pd
-import xgboost as xgb
+import tempfile
 from datetime import datetime
 
 # remove for gcp because it's not required
@@ -20,21 +20,33 @@ app = Flask(__name__)
 CORS(app)
 db = firestore.Client(database="clinic")
 
+model = None
+
 def load_model():
+    global model
+    if model is not None:
+        return model
+
     storage_client = storage.Client()
-    bucket_name = "dental-ai-pricing-model"
-    bucket_pricing = storage_client.bucket(bucket_name)
-    blob_pricing = bucket_pricing.blob("pricing_model.json")
-    model_bytes = blob_pricing.download_as_bytes() 
-    booster = Booster()
-    booster.load_model(model_bytes)
-    return booster
+    bucket = storage_client.bucket("dental-ai-pricing-model")
+    blob = bucket.blob("pricing_model.json")
+
+    tmp = tempfile.NamedTemporaryFile(delete=False)
+    blob.download_to_filename(tmp.name)
+
+    model = XGBRegressor()
+    model.load_model(tmp.name)
+    return model
 
 def predict_price(model, labs):
-    
     now = datetime.now()
     curr_hour = now.hour
     curr_day = now.weekday()
+
+    feature_order = [
+        "lab_type", "service_id", "base_price", "hour", "day_of_week",
+        "hour_sin", "hour_cos", "dow_sin", "dow_cos"
+    ]
 
     updated_results = []
 
@@ -42,8 +54,10 @@ def predict_price(model, labs):
         services = lab.get("services_available", {})
 
         for service_id_str, service_info in services.items():
-            
             base_price = service_info.get("price")
+            if base_price is None:
+                continue
+
             hour_sin = np.sin(2 * np.pi * curr_hour / 24)
             hour_cos = np.cos(2 * np.pi * curr_hour / 24)
             dow_sin  = np.sin(2 * np.pi * curr_day / 7)
@@ -61,10 +75,9 @@ def predict_price(model, labs):
                 "dow_cos": dow_cos
             }
 
-            df_row = pd.DataFrame([row])
-            dmatrix = xgb.DMatrix(df_row)
+            df_row = pd.DataFrame([row], columns=feature_order)
 
-            multiplier = float(model.predict(dmatrix)[0])
+            multiplier = float(model.predict(df_row)[0])
             dynamic_price = float(base_price * multiplier)
 
             service_info["pred_multiplier"] = multiplier
@@ -94,7 +107,7 @@ def search_service():
     for doc in docs:
         data = doc.to_dict()
         services_available = data.get("services_available", {})
-        has_service = service_num in services_available
+        has_service = str(service_num) in services_available
 
         if has_service:
             data["id"] = doc.id
