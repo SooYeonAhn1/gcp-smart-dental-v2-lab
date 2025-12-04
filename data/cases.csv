@@ -1,0 +1,19 @@
+id;case_id;npi_id;user_id;patient_name;patient_email;patient_phone;patient_age;patient_address;lab_id;lab_name;lab_address;lab_phone;lab_postal;service_id;service_name;service_price;service_tat;created_at;updated_at
+cf3e15d8-1105-4ee6-ab26-de47be9287e8;CASE-MHXSY8FO-6AX8I;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Andy;anxprince@gmail.com;6264942996;26;buffalo, ny;101;Guerrero, Martinez and Martinez;"04788 Barry Avenue Suite 810
+Lake Mark, MT 91664";	+1-977-460-4020;91764;2;Unknown Service;470;8.86;2025-11-13 19:08:46.532946+00;2025-11-13 19:08:46.532946+00
+dadde768-ccf7-42b1-8aa6-cd5e28729ac3;CASE-MHXUJ8CI-1WAZE;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Evelyn;evelyn@test.com;6264842955;26;Palo Alto, CA;22;Scott-Boone;"108 Martinez Villages
+Stephaniehaven, AL 36818";812.528.2011x4560;92345;2;Unknown Service;101;2.52;2025-11-13 19:53:25.085828+00;2025-11-13 19:53:25.085828+00
+537ed68e-e634-4338-b9e6-699777aa45ff;CASE-MHXUOTEA-REFK0;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Evelyn;evelyn@gmail.com;6264848294;26;Palo Alto, CA;22;Scott-Boone;"108 Martinez Villages
+Stephaniehaven, AL 36818";812.528.2011x4560;92345;2;Unknown Service;101;2.52;2025-11-13 19:57:43.998494+00;2025-11-13 19:57:43.998494+00
+908dd013-9312-4a57-8698-164d3038de94;CASE-MHXV0D11-NPYF1;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Evelyn;evelyn@gmail.com;62649429956;26;evelyn@gmail.com;114;Brown, Soto and Kennedy;"7972 Steve Point Suite 267
+Emilychester, TX 64467";990.356.2080;92689;3;Unknown Service;91;0.65;2025-11-13 20:06:38.058895+00;2025-11-13 20:06:38.058895+00
+c8a58535-e0dd-4eea-8c79-3cbbcd98ca3a;CASE-MI3KVYC6-WYOMF;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Kayla;kayla@example.com;6264942996;26;Palo Alto, CA;113;Dominguez PLC;"63110 Maria Views
+South Amanda, OR 83599";883-853-8270;92104;2;Unknown Service;97;1.94;2025-11-17 20:09:36.145378+00;2025-11-17 20:09:36.145378+00
+86d76b7a-f76a-4a3e-ac76-1c645bd055dc;CASE-MI3MH8NV-RRS69;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Kayla;kayla@gmail.com;6264942996;26;Buffalo, NY;131;Sharp Group;"3620 Taylor Ford
+East Daniel, KS 68409";9747378571;94084;3;Unknown Service;103.67;1.39;2025-11-17 20:54:22.334571+00;2025-11-17 20:54:22.334571+00
+497a3b94-a67b-4592-b841-7e2b8796be15;CASE-MI7U8S6J-81B88;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Andy;anxprince@gmail.com;6264942996;26;Buffalo, NY;101;Guerrero, Martinez and Martinez;"04788 Barry Avenue Suite 810
+Lake Mark, MT 91664";	+1-977-460-4020;91764;2;Unknown Service;470;8.86;2025-11-20 19:42:43.659135+00;2025-11-20 19:42:43.659135+00
+3223a4d4-6e06-4a23-b7b2-c4dccdb2a61a;CASE-MI7VBP2T-0VXFG;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Evelyn;evelyn@gmail.com;6264942996;27;Buffalo, NY;101;Guerrero, Martinez and Martinez;"04788 Barry Avenue Suite 810
+Lake Mark, MT 91664";	+1-977-460-4020;91764;4;Unknown Service;319;5.34;2025-11-20 20:12:54.939884+00;2025-11-20 20:12:54.939884+00
+0790d633-9f52-421a-8f33-bf7ac28a8063;CASE-MIG8ETSZ-KFA1K;1234567890;d1f66fe1-8d03-4ad2-952d-d4e21b317e15;Andy;anxprince@gmail.com;62629962996;27;buffalo ny;157;Hawkins, Oconnor and White;"2479 Logan Locks Suite 870
+Jacobfurt, IN 74269";6978055297;90472;2;Unknown Service;126.33;3.4;2025-11-26 16:41:27.345511+00;2025-11-26 16:41:27.345511+00

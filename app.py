@@ -1,6 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from google.cloud import firestore
+from google.cloud import firestore, storage
+from xgboost import Booster
+import numpy as np
+import pandas as pd
+import xgboost as xgb
+from datetime import datetime
+
 # remove for gcp because it's not required
 # from firebase_admin import firestore, credentials
 
@@ -13,6 +19,60 @@ from google.cloud import firestore
 app = Flask(__name__)
 CORS(app)
 db = firestore.Client(database="clinic")
+
+def load_model():
+    storage_client = storage.Client()
+    bucket_name = "dental-ai-pricing-model"
+    bucket_pricing = storage_client.bucket(bucket_name)
+    blob_pricing = bucket_pricing.blob("pricing_model.json")
+    model_bytes = blob_pricing.download_as_bytes() 
+    booster = Booster()
+    booster.load_model(model_bytes)
+    return booster
+
+def predict_price(model, labs):
+    
+    now = datetime.now()
+    curr_hour = now.hour
+    curr_day = now.weekday()
+
+    updated_results = []
+
+    for lab in labs:
+        services = lab.get("services_available", {})
+
+        for service_id_str, service_info in services.items():
+            
+            base_price = service_info.get("price")
+            hour_sin = np.sin(2 * np.pi * curr_hour / 24)
+            hour_cos = np.cos(2 * np.pi * curr_hour / 24)
+            dow_sin  = np.sin(2 * np.pi * curr_day / 7)
+            dow_cos  = np.cos(2 * np.pi * curr_day / 7)
+
+            row = {
+                "lab_type": lab.get("type"),
+                "service_id": int(service_id_str),
+                "base_price": float(base_price),
+                "hour": curr_hour,
+                "day_of_week": curr_day,
+                "hour_sin": hour_sin,
+                "hour_cos": hour_cos,
+                "dow_sin": dow_sin,
+                "dow_cos": dow_cos
+            }
+
+            df_row = pd.DataFrame([row])
+            dmatrix = xgb.DMatrix(df_row)
+
+            multiplier = float(model.predict(dmatrix)[0])
+            dynamic_price = float(base_price * multiplier)
+
+            service_info["pred_multiplier"] = multiplier
+            service_info["dynamic_price"] = dynamic_price
+
+        updated_results.append(lab)
+
+    return updated_results
 
 @app.route("/search-service", methods=["GET"])
 def search_service():
@@ -40,9 +100,12 @@ def search_service():
             data["id"] = doc.id
             matching_results.append(data)
 
+    model = load_model()
+    results_with_predictions = predict_price(model, matching_results)
+
     return jsonify({
-        "count": len(matching_results),
-        "results": matching_results
+        "count": len(results_with_predictions),
+        "results": results_with_predictions
     })
 
 
